@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agung Kurniansyah - Morphic Cinematic Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #030712;
+            --card: rgba(15, 23, 42, 0.85);
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: rgba(56, 189, 248, 0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
+
+        /* Container Slide ala PPTX Morph */
+        .morph-container {
+            height: 100vh;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+        }
+
+        .morph-slide {
+            height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .slide-content {
+            max-width: 950px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: var(--card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            animation: morphIn 0.8s ease forwards;
+        }
+
+        /* Custom Scrollbar dalam Slide */
+        .slide-content::-webkit-scrollbar { width: 6px; }
+        .slide-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        @keyframes morphIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .slide-tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            padding: 0.3rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        h1, h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #fff; }
+        p { color: var(--muted); font-size: 1rem; line-height: 1.5; margin-bottom: 1.2rem; }
+
+        /* Layout Grid Khusus Proyek & Pengalaman Kerja */
+        .grid-morph {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .morph-card-item {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+        .morph-card-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-body { padding: 1.2rem; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.7rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #0ea5e9; box-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+
+        /* Indikator Slide Vertikal */
+        .morph-indicators {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+        .indicator {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .indicator.active {
+            background: var(--accent);
+            height: 22px;
+            border-radius: 6px;
+        }
+
+        @media(max-width: 768px) {
+            .slide-content { padding: 1.5rem; max-height: 90vh; }
+            h1, h2 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Indikator Navigasi Samping -->
+    <div class="morph-indicators">
+        <div class="indicator active" onclick="scrollToSlide(0)"></div>
+        <div class="indicator" onclick="scrollToSlide(1)"></div>
+        <div class="indicator" onclick="scrollToSlide(2)"></div>
+        <div class="indicator" onclick="scrollToSlide(3)"></div>
+        <div class="indicator" onclick="scrollToSlide(4)"></div>
+    </div>
+
+    <div class="morph-container" id="container">
+        
+        <!-- SLIDE 1: HERO / INTRO -->
+        <section class="morph-slide">
+            <div class="slide-content" style="text-align: center;">
+                <span class="slide-tag">01 / MORPH PORTFOLIO</span>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Agung Kurniansyah" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); margin: 0 auto 1rem; display: block;">
+                <h1>Agung Kurniansyah</h1>
+                <p>Chemical & Industrial Engineer | Technical Support Expert | Visual & Design Creator[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span). Menghubungkan presisi sains dengan efisiensi operasional dan estetika kreatif.</p>
+                <a href="#slide2" class="btn" onclick="scrollToSlide(1)">Mulai Eksplorasi <i class="fa-solid fa-arrow-down"></i></a>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: KEAHLIAN & LAB -->
+        <section class="morph-slide">
+            <div class="slide-content">
+                <span class="slide-tag">02 / EXPERTISE</span>
+                <h2>Laboratorium & Teknik Industri</h2>
+                <p>Kompetensi mendalam dalam instrumen analitik tingkat lanjut, pemeliharaan sistem, serta kepatuhan standar industri[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span).</p>
+                <div class="grid-morph">
+                    <div class="morph-card-item">
+                        <div class="card-body">
+                            <h3 style="color:var(--accent); font-size:1.1rem; margin-bottom:0.4rem;"><i class="fa-solid fa-flask"></i> Analisis R&D</h3>
+                            <p style="font-size:0.9rem; margin:0;">HPLC, GC, UV-Vis, validasi metode, CPOB & GLP[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span).</p>
+                        </div>
+                    </div>
+                    <div class="morph-card-item">
+                        <div class="card-body">
+                            <h3 style="color:var(--accent); font-size:1.1rem; margin-bottom:0.4rem;"><i class="fa-solid fa-gears"></i> Technical Support</h3>
+                            <p style="font-size:0.9rem; margin:0;">Troubleshooting instrumen, kalibrasi, & uji coba produk[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: FOTO ANIMASI PER PENGALAMAN KERJA -->
+        <section class="morph-slide">
+            <div class="slide-content">
+                <span class="slide-tag">03 / EXPERIENCE JOURNEY</span>
+                <h2>Jejak Pengalaman Profesional</h2>
+                <p>Transformasi peran dari pengujian laboratorium sains hingga manajemen teknis dan rekayasa konstruksi[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span).</p>
+                <div class="grid-morph">
+                    <!-- Pengalaman 1 -->
+                    <div class="morph-card-item">
+                        <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=500&auto=format&fit=crop&q=80" alt="Lab R&D" class="card-img">
+                        <div class="card-body">
+                            <h3 style="color:#fff; font-size:1rem; margin-bottom:0.2rem;">Supervisor R&D Lab Analysis</h3>
+                            <p style="font-size:0.85rem; color:var(--accent); margin-bottom:0.4rem;">PT Guardian Pharmatama[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)</p>
+                            <p style="font-size:0.85rem; margin:0;">Memimpin validasi metode analisis, SOP, dan penerapan standar mutu[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span).</p>
+                        </div>
+                    </div>
+                    <!-- Pengalaman 2 -->
+                    <div class="morph-card-item">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=80" alt="Technical Support" class="card-img">
+                        <div class="card-body">
+                            <h3 style="color:#fff; font-size:1rem; margin-bottom:0.2rem;">Technical Support Engineer</h3>
+                            <p style="font-size:0.85rem; color:var(--accent); margin-bottom:0.4rem;">PT Adhya Waris Saintifik[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)</p>
+                            <p style="font-size:0.85rem; margin:0;">Kalibrasi, perbaikan alat analitis, & penekanan waktu henti (downtime)[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: FOTO PER PROJECT -->
+        <section class="morph-slide">
+            <div class="slide-content">
+                <span class="slide-tag">04 / PROJECT SHOWCASE</span>
+                <h2>Portofolio Proyek Nyata</h2>
+                <p>Dokumentasi visual proyek perencanaan tata ruang, konstruksi, dan identitas merek[span_18](start_span)[span_18](end_span).</p>
+                <div class="grid-morph">
+                    <!-- Proyek 1 -->
+                    <div class="morph-card-item">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d0fbb18f773e?w=500&auto=format&fit=crop&q=80" alt="Main Gate" class="card-img">
+                        <div class="card-body">
+                            <h3 style="color:#fff; font-size:1rem; margin-bottom:0.2rem;">Perumahan Taman Bukit Alam</h3>
+                            <p style="font-size:0.85rem; margin:0;">Desain eksterior gerbang utama (Main Gate) gaya Modern Contemporary di Garut[span_19](start_span)[span_19](end_span).</p>
+                        </div>
+                    </div>
+                    <!-- Proyek 2 -->
+                    <div class="morph-card-item">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&auto=format&fit=crop&q=80" alt="Private Residence" class="card-img">
+                        <div class="card-body">
+                            <h3 style="color:#fff; font-size:1rem; margin-bottom:0.2rem;">Mr. Z's Private Residence</h3>
+                            <p style="font-size:0.85rem; margin:0;">Perencanaan konstruksi rumah 2 lantai (denah 2D & visualisasi 3D SketchUp)[span_20](start_span)[span_20](end_span).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: KONTAK -->
+        <section class="morph-slide">
+            <div class="slide-content" style="text-align: center;">
+                <span class="slide-tag">05 / CONNECT</span>
+                <h2>Mari Berkolaborasi</h2>
+                <p>Siap memberikan kontribusi optimal untuk dinamika profesional Anda berikutnya[span_21](start_span)[span_21](end_span).</p>
+                <p style="color: var(--accent); font-weight: 600; margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope"></i> agungkurniansyah39@gmail.com &bull; <i class="fa-solid fa-phone"></i> 0851-2365-7385[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)</p>
+                <a href="mailto:agungkurniansyah39@gmail.com" class="btn"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</a>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.morph-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const container = document.getElementById('container');
+
+        container.addEventListener('scroll', () => {
+            let index = Math.round(container.scrollTop / window.innerHeight);
+            indicators.forEach((ind, i) => {
+                ind.classList.toggle('active', i === index);
+            });
+        });
+
+        function scrollToSlide(index) {
+            slides[index].scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
